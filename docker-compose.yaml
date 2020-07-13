@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+    restart: always
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+
+  proxysql:
+    image: proxysql/proxysql:2.0.9
+    restart: always
+    ports:
+      - "6032:6032"
+      - "6033:6033"
+    volumes:
+      - type: bind
+        source: ./proxysql.cnf
+        target: /etc/proxysql.cnf
+
+volumes:
+  mysql_data:
